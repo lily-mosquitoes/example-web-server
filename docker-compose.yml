@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=examplewebserver
+      - POSTGRES_PASSWORD=development
+      - POSTGRES_DB=examplewebserver
+    ports:
+      - 9001:5432
