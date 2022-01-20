@@ -4,15 +4,16 @@
 extern crate dotenv;
 
 use dotenv::dotenv;
-use rocket_sync_db_pools::{diesel, database};
+// use rocket_sync_db_pools::{diesel, database};
 
+pub mod connection;
 pub mod routes;
 
-#[database("db")]
-struct DbConn(diesel::PgConnection);
+// #[database("db")]
+// struct DbConn(diesel::PgConnection);
 
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(DbConn::fairing()).mount("/", routes![routes::index])
+    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![routes::index])
 }
