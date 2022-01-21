@@ -6,125 +6,226 @@
 	},
 	"item": [
 		{
-			"name": "index",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get ifus",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/ifus",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"ifus"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get ifu",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/ifus",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"ifus"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "post ifu",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n    \"code\": \"303.608.200\",\n    \"file_url\": \"https://example.com/file.pdf\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "ifus",
+			"item": [
+				{
+					"name": "get ifus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ifus",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ifus"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base_url}}/ifu",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"ifu"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update ifu",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n    \"code\": \"303.608.200\",\n    \"file_url\": \"https://example.com/file.pdf\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "get ifu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ifu/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ifu",
+								"5"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base_url}}/ifu",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"ifu"
-					]
+				{
+					"name": "post ifu",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 0,\n    \"code\": \"303.608.600\",\n    \"file_url\": \"https://example.com/file.pdf\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/ifu",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ifu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update ifu",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 6,\n    \"code\": \"303.608.465\",\n    \"file_url\": \"https://example.com/file_new.pdf\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/ifu/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ifu",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete ifu",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ifu/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ifu",
+								"6"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "delete ifu",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/ifu/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"ifu",
-						"1"
-					]
+			"name": "products",
+			"item": [
+				{
+					"name": "get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 0,\n    \"code\": \"100.505.302\",\n    \"name\": \"awesome product\",\n    \"ifu_id\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"code\": \"100.505.302\",\n    \"name\": \"awesome product\",\n    \"ifu_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [

@@ -41,6 +41,10 @@ pub struct Product {
     pub ifu_id: i32,
 }
 
+impl Record for Product {
+    fn id(&self) -> i32 { self.id }
+}
+
 #[derive(Insertable)]
 #[table_name = "products"]
 pub struct InsertableProduct {

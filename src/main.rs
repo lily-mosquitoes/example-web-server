@@ -13,9 +13,10 @@ pub mod models;
 pub mod schema;
 
 use crate::routes::ifus;
+use crate::routes::products;
 
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete ])
+    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete])
 }
