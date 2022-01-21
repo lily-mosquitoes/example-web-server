@@ -58,3 +58,13 @@ pub async fn update_ifu(id: i32, ifu: Json<models::Ifu>, connection: DbConn) -> 
         .map_err(|error| error_status(error))
     ).await
 }
+
+#[delete("/ifu/<id>")]
+pub async fn delete_ifu(id: i32, connection: DbConn) -> Result<status::NoContent, Status> {
+    connection.run( move |c| match repository::get_ifu(id, c) {
+        Ok(_) => repository::delete_ifu(id, c)
+            .map(|_| status::NoContent)
+            .map_err(|error| error_status(error)),
+        Err(error) => Err(error_status(error))
+    }).await
+}

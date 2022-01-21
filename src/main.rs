@@ -15,5 +15,5 @@ pub mod schema;
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![routes::index, routes::get_ifus, routes::get_ifu, routes::post_ifu, routes::update_ifu ])
+    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![routes::index, routes::get_ifus, routes::get_ifu, routes::post_ifu, routes::update_ifu, routes::delete_ifu ])
 }
