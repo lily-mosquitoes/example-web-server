@@ -40,3 +40,13 @@ pub struct InsertableProduct {
     pub name: String,
     pub ifu_id: i32,
 }
+
+impl InsertableProduct {
+    pub fn from_product(product: Product) -> InsertableProduct {
+        InsertableProduct {
+            code: product.code,
+            name: product.name,
+            ifu_id: product.ifu_id,
+        }
+    }
+}
