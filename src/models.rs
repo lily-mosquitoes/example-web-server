@@ -2,11 +2,19 @@ use rocket::serde::{ Serialize, Deserialize };
 use diesel::{ Queryable, Insertable };
 use crate::schema::{ ifus, products };
 
+pub trait Record {
+    fn id(&self) -> i32;
+}
+
 #[derive(Queryable, AsChangeset, Serialize, Deserialize)]
 pub struct Ifu {
     pub id: i32,
     pub code: String,
     pub file_url: String,
+}
+
+impl Record for Ifu {
+    fn id(&self) -> i32 { self.id }
 }
 
 #[derive(Insertable)]
