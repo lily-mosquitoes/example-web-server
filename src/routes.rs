@@ -2,10 +2,10 @@ use rocket_sync_db_pools::diesel::result::Error;
 use rocket::http::Status;
 use rocket::response::status;
 use rocket::serde::json::Json;
+use std::env;
 use crate::connection::DbConn;
 use crate::models;
 use crate::repository;
-use std::env;
 
 fn error_status(error: Error) -> Status {
     match error {
