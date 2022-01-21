@@ -29,7 +29,7 @@ pub fn index() -> &'static str {
 
 #[get("/ifus")]
 pub async fn get_ifus(connection: DbConn) -> Result<Json<Vec<models::Ifu>>, Status> {
-    connection.run( |c| repository::all_ifus(c)
+    connection.run( |c| repository::ifus::all(c)
         .map(|ifus| Json(ifus))
         .map_err(|error| error_status(error))
     ).await
@@ -37,7 +37,7 @@ pub async fn get_ifus(connection: DbConn) -> Result<Json<Vec<models::Ifu>>, Stat
 
 #[get("/ifu/<id>")]
 pub async fn get_ifu(id: i32, connection: DbConn) -> Result<Json<models::Ifu>, Status> {
-    connection.run( move |c| repository::get_ifu(id, c)
+    connection.run( move |c| repository::ifus::get(id, c)
         .map(|ifu| Json(ifu))
         .map_err(|error| error_status(error))
     ).await
@@ -45,7 +45,7 @@ pub async fn get_ifu(id: i32, connection: DbConn) -> Result<Json<models::Ifu>, S
 
 #[post("/ifu", format="application/json", data="<ifu>")]
 pub async fn post_ifu(ifu: Json<models::Ifu>, connection: DbConn) -> Result<status::Created<Json<models::Ifu>>, Status> {
-    connection.run( |c| repository::insert_ifu(ifu.into_inner(), c)
+    connection.run( |c| repository::ifus::insert(ifu.into_inner(), c)
         .map(|ifu| ifu_created(ifu))
         .map_err(|error| error_status(error))
     ).await
@@ -53,7 +53,7 @@ pub async fn post_ifu(ifu: Json<models::Ifu>, connection: DbConn) -> Result<stat
 
 #[put("/ifu/<id>", format="application/json", data="<ifu>")]
 pub async fn update_ifu(id: i32, ifu: Json<models::Ifu>, connection: DbConn) -> Result<Json<models::Ifu>, Status> {
-    connection.run( move |c| repository::update_ifu(id, ifu.into_inner(), c)
+    connection.run( move |c| repository::ifus::update(id, ifu.into_inner(), c)
         .map(|ifu| Json(ifu))
         .map_err(|error| error_status(error))
     ).await
@@ -61,8 +61,8 @@ pub async fn update_ifu(id: i32, ifu: Json<models::Ifu>, connection: DbConn) -> 
 
 #[delete("/ifu/<id>")]
 pub async fn delete_ifu(id: i32, connection: DbConn) -> Result<status::NoContent, Status> {
-    connection.run( move |c| match repository::get_ifu(id, c) {
-        Ok(_) => repository::delete_ifu(id, c)
+    connection.run( move |c| match repository::ifus::get(id, c) {
+        Ok(_) => repository::ifus::delete(id, c)
             .map(|_| status::NoContent)
             .map_err(|error| error_status(error)),
         Err(error) => Err(error_status(error))
