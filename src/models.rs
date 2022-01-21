@@ -2,7 +2,7 @@ use rocket::serde::{ Serialize, Deserialize };
 use diesel::{ Queryable, Insertable };
 use crate::schema::{ ifus, products };
 
-#[derive(Queryable, Serialize, Deserialize)]
+#[derive(Queryable, AsChangeset, Serialize, Deserialize)]
 pub struct Ifu {
     pub id: i32,
     pub code: String,
@@ -25,7 +25,7 @@ impl InsertableIfu {
     }
 }
 
-#[derive(Queryable, Serialize, Deserialize)]
+#[derive(Queryable, AsChangeset, Serialize, Deserialize)]
 pub struct Product {
     pub id: i32,
     pub code: String,
