@@ -1,19 +1,19 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
 #[macro_use] extern crate rocket;
+#[macro_use] extern crate diesel;
 extern crate dotenv;
 
 use dotenv::dotenv;
-// use rocket_sync_db_pools::{diesel, database};
 
 pub mod connection;
 pub mod routes;
-
-// #[database("db")]
-// struct DbConn(diesel::PgConnection);
+pub mod repository;
+pub mod models;
+pub mod schema;
 
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![routes::index])
+    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![routes::index, routes::get_ifus, routes::post_ifu ])
 }

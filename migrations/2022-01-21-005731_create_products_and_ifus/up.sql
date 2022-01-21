@@ -1,0 +1,12 @@
+CREATE TABLE ifus (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) UNIQUE NOT NULL,
+    file_url TEXT NOT NULL
+);
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    ifu_id SERIAL REFERENCES ifus(id) ON DELETE RESTRICT
+);
