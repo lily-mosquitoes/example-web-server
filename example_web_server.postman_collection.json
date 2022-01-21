@@ -40,6 +40,23 @@
 			"response": []
 		},
 		{
+			"name": "get ifu",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/ifus",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ifus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "post ifu",
 			"request": {
 				"method": "POST",
@@ -60,6 +77,50 @@
 					],
 					"path": [
 						"ifu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update ifu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 0,\n    \"code\": \"303.608.200\",\n    \"file_url\": \"https://example.com/file.pdf\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/ifu",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ifu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete ifu",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/ifu/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ifu",
+						"1"
 					]
 				}
 			},
