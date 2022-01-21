@@ -50,3 +50,11 @@ pub async fn post_ifu(ifu: Json<models::Ifu>, connection: DbConn) -> Result<stat
         .map_err(|error| error_status(error))
     ).await
 }
+
+#[put("/ifu/<id>", format="application/json", data="<ifu>")]
+pub async fn update_ifu(id: i32, ifu: Json<models::Ifu>, connection: DbConn) -> Result<Json<models::Ifu>, Status> {
+    connection.run( move |c| repository::update_ifu(id, ifu.into_inner(), c)
+        .map(|ifu| Json(ifu))
+        .map_err(|error| error_status(error))
+    ).await
+}
