@@ -5,6 +5,7 @@
 extern crate dotenv;
 
 use dotenv::dotenv;
+use rocket::Request;
 
 pub mod connection;
 pub mod routes;
@@ -15,8 +16,18 @@ pub mod schema;
 use crate::routes::ifus;
 use crate::routes::products;
 
+#[catch(500)]
+fn internal_server_error() -> String {
+    "Internal Server Error / Operation Not Allowed".to_string()
+}
+
+#[catch(404)]
+fn not_found(req: &Request) -> String {
+    format!("Resource not found: '{}'", req.uri())
+}
+
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(connection::DbConn::fairing()).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete])
+    rocket::build().attach(connection::DbConn::fairing()).register("/", catchers![internal_server_error, not_found]).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete])
 }
