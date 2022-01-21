@@ -33,10 +33,6 @@ pub async fn get_ifus(connection: DbConn) -> Result<Json<Vec<models::Ifu>>, Stat
         .map(|ifus| Json(ifus))
         .map_err(|error| error_status(error))
     ).await
-
-    // repository::all_ifus(&connection)
-    //     .map(|ifus| Json(ifus))
-    //     .map_err(|error| error_status(error))
 }
 
 #[post("/ifu", format="application/json", data="<ifu>")]
