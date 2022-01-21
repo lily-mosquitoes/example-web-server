@@ -1,6 +1,6 @@
 use rocket_sync_db_pools::diesel::{self, prelude::*};
 use crate::schema::ifus;
-use crate::models::{Ifu, InsertableIfu};
+use crate::models::ifus::{Ifu, InsertableIfu};
 
 pub fn all(connection: &diesel::PgConnection) -> QueryResult<Vec<Ifu>> {
     ifus::table.load::<Ifu>(connection)

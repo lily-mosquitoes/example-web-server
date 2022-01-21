@@ -1,6 +1,6 @@
 use rocket_sync_db_pools::diesel::{self, prelude::*};
 use crate::schema::products;
-use crate::models::{Product, InsertableProduct};
+use crate::models::products::{Product, InsertableProduct};
 
 pub fn all(connection: &diesel::PgConnection) -> QueryResult<Vec<Product>> {
     products::table.load::<Product>(connection)

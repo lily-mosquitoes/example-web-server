@@ -2,7 +2,7 @@ use rocket::http::Status;
 use rocket::response::status;
 use rocket::serde::json::Json;
 use crate::connection::DbConn;
-use crate::models::Product;
+use crate::models::products::Product;
 use crate::repository::products;
 use crate::routes::utils::{ error_status, record_created };
 

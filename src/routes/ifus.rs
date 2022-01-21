@@ -2,7 +2,7 @@ use rocket::http::Status;
 use rocket::response::status;
 use rocket::serde::json::Json;
 use crate::connection::DbConn;
-use crate::models::Ifu;
+use crate::models::ifus::Ifu;
 use crate::repository::ifus;
 use crate::routes::utils::{ error_status, record_created };
 
