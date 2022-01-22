@@ -8,6 +8,7 @@ use crate::models::Record;
 pub struct User {
     pub id: i32,
     pub username: String,
+    #[serde(skip_serializing)]
     pub password_hash: String,
     pub last_login: DateTime<Utc>,
 }
