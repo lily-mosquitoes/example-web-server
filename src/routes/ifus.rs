@@ -49,7 +49,24 @@ pub async fn post(ifu: Json<Ifu>, jar: &CookieJar<'_>, connection: DbConn) -> Re
 }
 
 #[put("/ifu/<id>", format="application/json", data="<ifu>")]
-pub async fn update(id: i32, ifu: Json<Ifu>, connection: DbConn) -> Result<Json<Ifu>, Status> {
+pub async fn update(id: i32, ifu: Json<Ifu>, jar: &CookieJar<'_>, connection: DbConn) -> Result<Json<Ifu>, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+                .map(|user| Json(user))
+                .map_err(|error| error_status(error))
+            ).await {
+                Ok(_) => (),
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
     connection.run( move |c| ifus::update(id, ifu.into_inner(), c)
         .map(|ifu| Json(ifu))
         .map_err(|error| error_status(error))
@@ -57,7 +74,24 @@ pub async fn update(id: i32, ifu: Json<Ifu>, connection: DbConn) -> Result<Json<
 }
 
 #[delete("/ifu/<id>")]
-pub async fn delete(id: i32, connection: DbConn) -> Result<status::NoContent, Status> {
+pub async fn delete(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::NoContent, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+                .map(|user| Json(user))
+                .map_err(|error| error_status(error))
+            ).await {
+                Ok(_) => (),
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+    
     connection.run( move |c| match ifus::get(id, c) {
         Ok(_) => ifus::delete(id, c)
             .map(|_| status::NoContent)
