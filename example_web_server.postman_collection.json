@@ -237,7 +237,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"user\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -358,7 +358,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"username\": \"test\",\n    \"password_hash\": \"test\",\n    \"last_login\": \"2022-01-22T03:30:53.627868Z\"\n}",
+							"raw": "{\n    \"username\": \"changed\",\n    \"password\": \"changed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -366,13 +366,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/user/2",
+							"raw": "{{base_url}}/user/6",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"user",
-								"2"
+								"6"
 							]
 						}
 					},

@@ -78,15 +78,17 @@ pub async fn post(login: Json<Login>, jar: &CookieJar<'_>, connection: DbConn) -
 pub async fn update(id: i32, login: Json<Login>, jar: &CookieJar<'_>, connection: DbConn) -> Result<Json<User>, Status> {
     match jar.get_private("user_id") {
         Some(crumb) => {
-            let id = match FromStr::from_str(crumb.value()) {
-                Ok(id) => id,
+            let user_id = match FromStr::from_str(crumb.value()) {
+                Ok(user_id) => user_id,
                 Err(_) => return Err(Status::Forbidden),
             };
-            match connection.run( move |c| users::get(id, c)
-                .map(|user| Json(user))
-                .map_err(|error| error_status(error))
+            match connection.run( move |c| users::get(user_id, c)
             ).await {
-                Ok(_) => (),
+                Ok(_) => {
+                    if user_id != id {
+                        return Err(Status::Forbidden)
+                    }
+                },
                 Err(_) => return Err(Status::Forbidden),
             };
         },
