@@ -11,10 +11,6 @@ fn hash_user_password(password: String) -> Result<String, diesel::result::Error>
     }
 }
 
-// #[derive(Debug, Clone)]
-// struct NoMatch;
-// type Result<T> = std::result::Result<T, NoMatch>;
-
 fn check_user_password(password: &[u8], hash: &String) -> Result<String, password_hash::errors::Error> {
     let parsed_hash = PasswordHash::new(hash)?;
     if Argon2::default().verify_password(password, &parsed_hash).is_ok() {
