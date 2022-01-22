@@ -48,13 +48,18 @@ pub fn insert(mut login: Login, connection: &diesel::PgConnection) -> QueryResul
         .get_result(connection)
 }
 
-pub fn update(id: i32, mut user: User, connection: &diesel::PgConnection) -> QueryResult<User> {
-    let old_user = users::table.find(id)
+pub fn update(id: i32, login: Login, connection: &diesel::PgConnection) -> QueryResult<User> {
+    let mut user = users::table.find(id)
         .get_result::<User>(connection)?;
 
-    match check_user_password(user.password_hash.as_bytes(), &old_user.password_hash) {
-        Ok(_) => user.password_hash = old_user.password_hash,
-        Err(_) => user.password_hash = hash_user_password(user.password_hash)?,
+    match check_user_password(login.password.as_bytes(), &user.password_hash) {
+        Ok(_) => {
+            user.username = login.username;
+        },
+        Err(_) => {
+            user.username = login.username;
+            user.password_hash = hash_user_password(login.password)?;
+        },
     };
 
     diesel::update(users::table.find(id))
