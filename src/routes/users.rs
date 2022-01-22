@@ -1,10 +1,30 @@
-use rocket::http::Status;
+use rocket::http::{Status, Cookie, CookieJar};
 use rocket::response::status;
 use rocket::serde::json::Json;
+use diesel::result::Error;
 use crate::connection::DbConn;
 use crate::models::users::User;
 use crate::repository::users;
 use crate::routes::utils::{ error_status, record_created };
+
+#[post("/login", data="<login>")]
+pub async fn login(jar: &CookieJar<'_>, login: Json<users::Login>, connection: DbConn) -> Result<status::Accepted<String>, status::Forbidden<String>> {
+    let result: Result<i32, Error> = connection.run( move |c| users::login(login.into_inner(), c)
+    ).await;
+    match result {
+        Ok(id) => {
+            jar.add_private(Cookie::new("user_id", id.to_string()));
+            Ok(status::Accepted(Some("User logged in".to_string())))
+        },
+        Err(_) => Err(status::Forbidden(Some("Invalid username/password".to_string()))),
+    }
+}
+
+#[get("/user_id")]
+pub fn user_id(cookies: &CookieJar<'_>) -> Option<String> {
+    cookies.get_private("user_id")
+        .map(|crumb| format!("User ID: {}", crumb.value()))
+}
 
 #[get("/users")]
 pub async fn all(connection: DbConn) -> Result<Json<Vec<User>>, Status> {
