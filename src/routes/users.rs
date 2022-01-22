@@ -1,6 +1,7 @@
 use rocket::http::{Status, Cookie, CookieJar};
 use rocket::response::status;
 use rocket::serde::json::Json;
+use std::str::FromStr;
 use diesel::result::Error;
 use crate::connection::DbConn;
 use crate::models::users::User;
@@ -49,7 +50,24 @@ pub async fn get(id: i32, connection: DbConn) -> Result<Json<User>, Status> {
 }
 
 #[post("/user", format="application/json", data="<user>")]
-pub async fn post(user: Json<User>, connection: DbConn) -> Result<status::Created<Json<User>>, Status> {
+pub async fn post(user: Json<User>, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::Created<Json<User>>, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+                .map(|user| Json(user))
+                .map_err(|error| error_status(error))
+            ).await {
+                Ok(_) => (),
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
     connection.run( |c| users::insert(user.into_inner(), c)
         .map(|user| record_created(user))
         .map_err(|error| error_status(error))
@@ -57,7 +75,24 @@ pub async fn post(user: Json<User>, connection: DbConn) -> Result<status::Create
 }
 
 #[put("/user/<id>", format="application/json", data="<user>")]
-pub async fn update(id: i32, user: Json<User>, connection: DbConn) -> Result<Json<User>, Status> {
+pub async fn update(id: i32, user: Json<User>, jar: &CookieJar<'_>, connection: DbConn) -> Result<Json<User>, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+                .map(|user| Json(user))
+                .map_err(|error| error_status(error))
+            ).await {
+                Ok(_) => (),
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
     connection.run( move |c| users::update(id, user.into_inner(), c)
         .map(|user| Json(user))
         .map_err(|error| error_status(error))
@@ -65,7 +100,24 @@ pub async fn update(id: i32, user: Json<User>, connection: DbConn) -> Result<Jso
 }
 
 #[delete("/user/<id>")]
-pub async fn delete(id: i32, connection: DbConn) -> Result<status::NoContent, Status> {
+pub async fn delete(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::NoContent, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+                .map(|user| Json(user))
+                .map_err(|error| error_status(error))
+            ).await {
+                Ok(_) => (),
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
     connection.run( move |c| match users::get(id, c) {
         Ok(_) => users::delete(id, c)
             .map(|_| status::NoContent)
