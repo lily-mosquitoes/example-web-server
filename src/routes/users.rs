@@ -120,6 +120,11 @@ pub async fn delete(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<
         None => return Err(Status::Forbidden),
     };
 
+    match id {
+        1 => return Err(Status::Forbidden), // avoid deletion of default user
+        _ => (),
+    };
+
     connection.run( move |c| match users::get(id, c) {
         Ok(_) => users::delete(id, c)
             .map(|_| status::NoContent)
