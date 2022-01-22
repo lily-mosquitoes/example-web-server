@@ -8,6 +8,7 @@ rocket = { version = "0.5.0-rc.1", features = ["json", "secrets"] }
 diesel = "1.4.8"
 serde = "1.0.134"
 dotenv = "0.15.0"
+chrono = "0.4.19"
 
 [dependencies.rocket_sync_db_pools]
 version = "0.1.0-rc.1"
