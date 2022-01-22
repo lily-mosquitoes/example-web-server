@@ -15,9 +15,19 @@ table! {
     }
 }
 
+table! {
+    users (id) {
+        id -> Int4,
+        username -> Varchar,
+        password_hash -> Varchar,
+        last_login -> Timestamptz,
+    }
+}
+
 joinable!(products -> ifus (ifu_id));
 
 allow_tables_to_appear_in_same_query!(
     ifus,
     products,
+    users,
 );
