@@ -17,6 +17,12 @@ impl Record for User {
     fn id(&self) -> i32 { self.id }
 }
 
+#[derive(Deserialize)]
+pub struct Login {
+    pub username: String,
+    pub password: String,
+}
+
 #[derive(Insertable)]
 #[table_name = "users"]
 pub struct InsertableUser {
@@ -25,10 +31,10 @@ pub struct InsertableUser {
 }
 
 impl InsertableUser {
-    pub fn from_user(user: User) -> InsertableUser {
+    pub fn from_login(login: Login) -> InsertableUser {
         InsertableUser {
-            username: user.username,
-            password_hash: user.password_hash,
+            username: login.username,
+            password_hash: login.password,
         }
     }
 }

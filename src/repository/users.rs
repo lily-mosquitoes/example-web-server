@@ -1,14 +1,7 @@
 use argon2::{password_hash::{self, rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString}, Argon2};
 use rocket_sync_db_pools::diesel::{self, prelude::*};
-use rocket::serde::Deserialize;
 use crate::schema::users;
-use crate::models::users::{User, InsertableUser};
-
-#[derive(Deserialize)]
-pub struct Login {
-    pub username: String,
-    pub password: String,
-}
+use crate::models::users::{User, Login, InsertableUser};
 
 fn hash_user_password(password: String) -> Result<String, diesel::result::Error> {
     let salt = SaltString::generate(&mut OsRng);
@@ -48,10 +41,10 @@ pub fn get(id: i32, connection: &diesel::PgConnection) -> QueryResult<User> {
     users::table.find(id).get_result::<User>(connection)
 }
 
-pub fn insert(mut user: User, connection: &diesel::PgConnection) -> QueryResult<User> {
-    user.password_hash = hash_user_password(user.password_hash)?;
+pub fn insert(mut login: Login, connection: &diesel::PgConnection) -> QueryResult<User> {
+    login.password = hash_user_password(login.password)?;
     diesel::insert_into(users::table)
-        .values(&InsertableUser::from_user(user))
+        .values(&InsertableUser::from_login(login))
         .get_result(connection)
 }
 

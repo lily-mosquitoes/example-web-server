@@ -332,7 +332,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 0,\n    \"username\": \"example\",\n    \"password_hash\": \"example\",\n    \"last_login\": \"2022-01-22T03:30:53.627868Z\"\n}",
+							"raw": "{\n    \"username\": \"newusername\",\n    \"password\": \"newusername\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

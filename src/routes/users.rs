@@ -4,12 +4,12 @@ use rocket::serde::json::Json;
 use std::str::FromStr;
 use diesel::result::Error;
 use crate::connection::DbConn;
-use crate::models::users::User;
+use crate::models::users::{User, Login};
 use crate::repository::users;
 use crate::routes::utils::{ error_status, record_created };
 
 #[post("/login", data="<login>")]
-pub async fn login(jar: &CookieJar<'_>, login: Json<users::Login>, connection: DbConn) -> Result<status::Accepted<String>, status::Forbidden<String>> {
+pub async fn login(jar: &CookieJar<'_>, login: Json<Login>, connection: DbConn) -> Result<status::Accepted<String>, status::Forbidden<String>> {
     let result: Result<i32, Error> = connection.run( move |c| users::login(login.into_inner(), c)
     ).await;
     match result {
@@ -49,8 +49,8 @@ pub async fn get(id: i32, connection: DbConn) -> Result<Json<User>, Status> {
     ).await
 }
 
-#[post("/user", format="application/json", data="<user>")]
-pub async fn post(user: Json<User>, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::Created<Json<User>>, Status> {
+#[post("/user", format="application/json", data="<login>")]
+pub async fn post(login: Json<Login>, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::Created<Json<User>>, Status> {
     match jar.get_private("user_id") {
         Some(crumb) => {
             let id = match FromStr::from_str(crumb.value()) {
@@ -68,7 +68,7 @@ pub async fn post(user: Json<User>, jar: &CookieJar<'_>, connection: DbConn) -> 
         None => return Err(Status::Forbidden),
     };
 
-    connection.run( |c| users::insert(user.into_inner(), c)
+    connection.run( |c| users::insert(login.into_inner(), c)
         .map(|user| record_created(user))
         .map_err(|error| error_status(error))
     ).await
