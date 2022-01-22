@@ -15,6 +15,7 @@ pub mod schema;
 
 use crate::routes::ifus;
 use crate::routes::products;
+use crate::routes::users;
 
 #[catch(500)]
 fn internal_server_error() -> String {
@@ -29,5 +30,5 @@ fn not_found(req: &Request) -> String {
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(connection::DbConn::fairing()).register("/", catchers![internal_server_error, not_found]).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete])
+    rocket::build().attach(connection::DbConn::fairing()).register("/", catchers![internal_server_error, not_found]).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete, users::all, users::get, users::post, users::update, users::delete])
 }

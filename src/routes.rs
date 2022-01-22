@@ -1,5 +1,6 @@
 pub mod ifus;
 pub mod products;
+pub mod users;
 
 pub mod utils {
     use rocket_sync_db_pools::diesel::result::Error;

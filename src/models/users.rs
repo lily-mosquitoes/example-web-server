@@ -1,6 +1,6 @@
 use rocket::serde::{ Serialize, Deserialize };
 use diesel::{ Queryable, Insertable };
-use chrono::{Local, DateTime};
+use chrono::{ Utc, DateTime };
 use crate::schema::users;
 use crate::models::Record;
 
@@ -9,7 +9,7 @@ pub struct User {
     pub id: i32,
     pub username: String,
     pub password_hash: String,
-    pub last_login: DateTime<Local>,
+    pub last_login: DateTime<Utc>,
 }
 
 impl Record for User {

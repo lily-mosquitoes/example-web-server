@@ -9,6 +9,8 @@ diesel = { version = "1.4.8", features = ["chrono"] }
 serde = "1.0.134"
 dotenv = "0.15.0"
 chrono = { version = "0.4.19", features = ["serde"] }
+argon2 = "0.3"
+rand_core = { version = "0.6", features = ["std"] }
 
 [dependencies.rocket_sync_db_pools]
 version = "0.1.0-rc.1"
