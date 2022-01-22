@@ -26,6 +26,12 @@ pub fn user_id(cookies: &CookieJar<'_>) -> Option<String> {
         .map(|crumb| format!("User ID: {}", crumb.value()))
 }
 
+#[post("/logout")]
+pub fn logout(jar: &CookieJar<'_>) -> Json<String> {
+    jar.remove_private(Cookie::named("user_id"));
+    Json("User logged out".to_string())
+}
+
 #[get("/users")]
 pub async fn all(connection: DbConn) -> Result<Json<Vec<User>>, Status> {
     connection.run( |c| users::all(c)

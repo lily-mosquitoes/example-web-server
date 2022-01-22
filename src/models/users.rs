@@ -1,7 +1,6 @@
 use rocket::serde::{ Serialize, Deserialize };
 use diesel::{ Queryable, Insertable };
 use chrono::{ Utc, DateTime };
-use rocket::request::{self, FromRequest, Request};
 use crate::schema::users;
 use crate::models::Record;
 
