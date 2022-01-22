@@ -24,4 +24,4 @@
 
      `diesel migration generate migration_name_here`
 
-      Then write the SQL for the new migration at `up.sql` and to revert it at `down.sql`
+- then write the SQL for the new migration at `up.sql` and to revert it at `down.sql`
