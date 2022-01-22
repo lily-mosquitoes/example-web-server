@@ -21,8 +21,8 @@ pub async fn login(jar: &CookieJar<'_>, login: Json<users::Login>, connection: D
 }
 
 #[get("/user_id")]
-pub fn user_id(cookies: &CookieJar<'_>) -> Option<String> {
-    cookies.get_private("user_id")
+pub fn user_id(jar: &CookieJar<'_>) -> Option<String> {
+    jar.get_private("user_id")
         .map(|crumb| format!("User ID: {}", crumb.value()))
 }
 
