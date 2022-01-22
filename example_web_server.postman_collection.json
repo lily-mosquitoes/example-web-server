@@ -31,13 +31,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/ifu/7",
+							"raw": "{{base_url}}/ifu/8",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"ifu",
-								"7"
+								"8"
 							]
 						}
 					},
@@ -76,7 +76,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 6,\n    \"code\": \"303.608.465\",\n    \"file_url\": \"https://example.com/file_new.pdf\"\n}",
+							"raw": "{\n    \"id\": 8,\n    \"code\": \"303.608.999\",\n    \"file_url\": \"https://example.com/file_new.pdf\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,13 +84,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/ifu/6",
+							"raw": "{{base_url}}/ifu/8",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"ifu",
-								"6"
+								"8"
 							]
 						}
 					},
@@ -102,13 +102,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/ifu/3",
+							"raw": "{{base_url}}/ifu/8",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"ifu",
-								"3"
+								"8"
 							]
 						}
 					},
