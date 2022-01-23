@@ -21,6 +21,7 @@ table! {
         username -> Varchar,
         password_hash -> Varchar,
         last_login -> Timestamptz,
+        admin_status -> Bool,
     }
 }
 

@@ -67,6 +67,17 @@ pub fn update(id: i32, login: Login, connection: &diesel::PgConnection) -> Query
         .get_result(connection)
 }
 
+pub fn make_admin(id: i32, connection: &diesel::PgConnection) -> QueryResult<User> {
+    let mut user = users::table.find(id)
+        .get_result::<User>(connection)?;
+
+    user.admin_status = true;
+
+    diesel::update(users::table.find(id))
+        .set(&user)
+        .get_result(connection)
+}
+
 pub fn delete(id: i32, connection: &diesel::PgConnection) -> QueryResult<usize> {
     diesel::delete(users::table.find(id))
         .execute(connection)

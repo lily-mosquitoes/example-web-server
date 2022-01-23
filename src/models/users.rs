@@ -11,6 +11,7 @@ pub struct User {
     #[serde(skip_serializing)]
     pub password_hash: String,
     pub last_login: DateTime<Utc>,
+    pub admin_status: bool,
 }
 
 impl Record for User {

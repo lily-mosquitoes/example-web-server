@@ -34,7 +34,26 @@ pub fn logout(jar: &CookieJar<'_>) -> Json<String> {
 }
 
 #[get("/users")]
-pub async fn all(connection: DbConn) -> Result<Json<Vec<User>>, Status> {
+pub async fn all(jar: &CookieJar<'_>, connection: DbConn) -> Result<Json<Vec<User>>, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+            ).await {
+                Ok(user) => {
+                    if user.admin_status == false {
+                        return Err(Status::Forbidden)
+                    }
+                },
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
     connection.run( |c| users::all(c)
         .map(|users| Json(users))
         .map_err(|error| error_status(error))
@@ -42,7 +61,26 @@ pub async fn all(connection: DbConn) -> Result<Json<Vec<User>>, Status> {
 }
 
 #[get("/user/<id>")]
-pub async fn get(id: i32, connection: DbConn) -> Result<Json<User>, Status> {
+pub async fn get(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<Json<User>, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+            ).await {
+                Ok(user) => {
+                    if user.id != id && user.admin_status == false {
+                        return Err(Status::Forbidden)
+                    }
+                },
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
     connection.run( move |c| users::get(id, c)
         .map(|user| Json(user))
         .map_err(|error| error_status(error))
@@ -58,10 +96,12 @@ pub async fn post(login: Json<Login>, jar: &CookieJar<'_>, connection: DbConn) -
                 Err(_) => return Err(Status::Forbidden),
             };
             match connection.run( move |c| users::get(id, c)
-                .map(|user| Json(user))
-                .map_err(|error| error_status(error))
             ).await {
-                Ok(_) => (),
+                Ok(user) => {
+                    if user.admin_status == false {
+                        return Err(Status::Forbidden)
+                    }
+                },
                 Err(_) => return Err(Status::Forbidden),
             };
         },
@@ -84,8 +124,8 @@ pub async fn update(id: i32, login: Json<Login>, jar: &CookieJar<'_>, connection
             };
             match connection.run( move |c| users::get(user_id, c)
             ).await {
-                Ok(_) => {
-                    if user_id != id {
+                Ok(user) => {
+                    if user.id != id && user.admin_status == false {
                         return Err(Status::Forbidden)
                     }
                 },
@@ -101,6 +141,33 @@ pub async fn update(id: i32, login: Json<Login>, jar: &CookieJar<'_>, connection
     ).await
 }
 
+#[put("/user/<id>/make_admin")]
+pub async fn make_admin(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<Json<User>, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let user_id = match FromStr::from_str(crumb.value()) {
+                Ok(user_id) => user_id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(user_id, c)
+            ).await {
+                Ok(user) => {
+                    if user.admin_status == false {
+                        return Err(Status::Forbidden)
+                    }
+                },
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
+    connection.run( move |c| users::make_admin(id, c)
+        .map(|user| Json(user))
+        .map_err(|error| error_status(error))
+    ).await
+}
+
 #[delete("/user/<id>")]
 pub async fn delete(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::NoContent, Status> {
     match jar.get_private("user_id") {
@@ -110,10 +177,12 @@ pub async fn delete(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<
                 Err(_) => return Err(Status::Forbidden),
             };
             match connection.run( move |c| users::get(id, c)
-                .map(|user| Json(user))
-                .map_err(|error| error_status(error))
             ).await {
-                Ok(_) => (),
+                Ok(user) => {
+                    if user.id != id && user.admin_status == false {
+                        return Err(Status::Forbidden)
+                    }
+                },
                 Err(_) => return Err(Status::Forbidden),
             };
         },
