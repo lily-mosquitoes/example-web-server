@@ -17,11 +17,11 @@ pub mod utils {
         }
     }
 
-    pub fn record_created<T: models::Record>(ifu: T) -> status::Created<Json<T>> {
+    pub fn record_created<T: models::Record>(record: T) -> status::Created<Json<T>> {
         let host = env::var("ROCKET_ADDRESS").expect("ROCKET_ADDRESS must be set");
         let port = env::var("ROCKET_PORT").expect("ROCKET_PORT must be set");
         status::Created::new(
-            format!("{host}:{port}/people/{id}", host = host, port = port, id = ifu.id()).to_string()
-        ).body(Json(ifu))
+            format!("{host}:{port}/people/{id}", host = host, port = port, id = record.id()).to_string()
+        ).body(Json(record))
     }
 }
