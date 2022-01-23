@@ -1,5 +1,6 @@
 use argon2::{password_hash::{self, rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString}, Argon2};
 use rocket_sync_db_pools::diesel::{self, prelude::*};
+use chrono::Utc;
 use crate::schema::users;
 use crate::models::users::{User, Login, InsertableUser};
 
@@ -21,15 +22,24 @@ fn check_user_password(password: &[u8], hash: &String) -> Result<String, passwor
 }
 
 pub fn login(login: Login, connection: &diesel::PgConnection) -> QueryResult<i32> {
-    let user_id = users::table.filter(users::username.eq(login.username))
+    match users::table.filter(users::username.eq(login.username))
         .select(users::id)
-        .first(connection)?;
+        .first(connection) {
+            Ok(id) => {
+                let mut user = users::table.find(id).get_result::<User>(connection)?;
 
-    let user = users::table.find(user_id).get_result::<User>(connection)?;
-
-    match check_user_password(login.password.as_bytes(), &user.password_hash) {
-        Ok(_) => Ok(user_id),
-        Err(_) => Err(diesel::result::Error::NotFound),
+                match check_user_password(login.password.as_bytes(), &user.password_hash) {
+                    Ok(_) => {
+                        user.last_login = Utc::now();
+                        diesel::update(users::table.find(id))
+                            .set(&user)
+                            .get_result::<User>(connection)?;
+                        Ok(id)
+                    },
+                    Err(_) => Err(diesel::result::Error::NotFound),
+                }
+            },
+            Err(error) => Err(error),
     }
 }
 
