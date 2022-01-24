@@ -5,12 +5,15 @@ edition = "2021"
 
 [dependencies]
 rocket = { version = "0.5.0-rc.1", features = ["json", "secrets"] }
-diesel = { version = "1.4.8", features = ["chrono"] }
+diesel = { version = "1.4.8", features = ["chrono", "uuidv07"] }
 serde = "1.0.134"
 dotenv = "0.15.0"
 chrono = { version = "0.4.19", features = ["serde"] }
 argon2 = "0.3"
 rand_core = { version = "0.6", features = ["std"] }
+uuid = { version = "0.8", features = ["serde"] }
+rocket-multipart-form-data = "0.10.0"
+rand = "0.8"
 
 [dependencies.rocket_sync_db_pools]
 version = "0.1.0-rc.1"

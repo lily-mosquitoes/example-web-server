@@ -355,6 +355,7 @@ dependencies = [
  "diesel_derives",
  "pq-sys",
  "r2d2",
+ "uuid",
 ]
 
 [[package]]
@@ -424,10 +425,13 @@ dependencies = [
  "chrono",
  "diesel",
  "dotenv",
+ "rand",
  "rand_core",
  "rocket",
+ "rocket-multipart-form-data",
  "rocket_sync_db_pools",
  "serde",
+ "uuid",
 ]
 
 [[package]]
@@ -1199,6 +1203,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "rocket-multipart-form-data"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2bec4978d352a6bd60b23b9e518096082f194abfbb03d0fdc189b5440dbb2798"
+dependencies = [
+ "mime",
+ "multer",
+ "rocket",
+ "tokio-util",
+]
+
+[[package]]
 name = "rocket_codegen"
 version = "0.5.0-rc.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1768,6 +1784,15 @@ checksum = "9f214e8f697e925001e66ec2c6e37a4ef93f0f78c2eed7814394e10c62025b05"
 dependencies = [
  "generic-array",
  "subtle",
+]
+
+[[package]]
+name = "uuid"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc5cf98d8186244414c848017f0e2676b3fcb46807f6668a97dfe67359a3c4b7"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
