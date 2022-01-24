@@ -12,7 +12,8 @@ pub struct Product {
 }
 
 impl Record for Product {
-    fn id(&self) -> i32 { self.id }
+    fn id(&self) -> String { self.id.to_string() }
+    fn kind(&self) -> String { "product".to_string() }
 }
 
 #[derive(Insertable)]

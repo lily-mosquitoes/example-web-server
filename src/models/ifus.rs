@@ -11,7 +11,8 @@ pub struct Ifu {
 }
 
 impl Record for Ifu {
-    fn id(&self) -> i32 { self.id }
+    fn id(&self) -> String { self.id.to_string() }
+    fn kind(&self) -> String { "ifus".to_string() }
 }
 
 #[derive(Insertable)]

@@ -21,7 +21,7 @@ pub mod utils {
         let host = env::var("ROCKET_ADDRESS").expect("ROCKET_ADDRESS must be set");
         let port = env::var("ROCKET_PORT").expect("ROCKET_PORT must be set");
         status::Created::new(
-            format!("{host}:{port}/people/{id}", host = host, port = port, id = record.id()).to_string()
+            format!("{host}:{port}/{kind}/{id}", host = host, port = port, kind = record.kind(), id = record.id())
         ).body(Json(record))
     }
 }

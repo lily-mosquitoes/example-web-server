@@ -15,7 +15,8 @@ pub struct User {
 }
 
 impl Record for User {
-    fn id(&self) -> i32 { self.id }
+    fn id(&self) -> String { self.id.to_string() }
+    fn kind(&self) -> String { "user".to_string() }
 }
 
 #[derive(Deserialize)]
