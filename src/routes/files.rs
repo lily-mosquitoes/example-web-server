@@ -124,3 +124,30 @@ pub async fn post(content_type: &ContentType, data: Data<'_>, jar: &CookieJar<'_
         None => Err(Status::BadRequest),
     }
 }
+
+#[delete("/file/<id>")]
+pub async fn delete(id: Uuid, jar: &CookieJar<'_>, connection: DbConn) -> Result<status::NoContent, Status> {
+    match jar.get_private("user_id") {
+        Some(crumb) => {
+            let id = match FromStr::from_str(crumb.value()) {
+                Ok(id) => id,
+                Err(_) => return Err(Status::Forbidden),
+            };
+            match connection.run( move |c| users::get(id, c)
+                .map(|user| Json(user))
+                .map_err(|error| error_status(error))
+            ).await {
+                Ok(_) => (),
+                Err(_) => return Err(Status::Forbidden),
+            };
+        },
+        None => return Err(Status::Forbidden),
+    };
+
+    connection.run( move |c| match files::get(id, c) {
+        Ok(_) => files::delete(id, c)
+            .map(|_| status::NoContent)
+            .map_err(|error| error_status(error)),
+        Err(error) => Err(error_status(error))
+    }).await
+}

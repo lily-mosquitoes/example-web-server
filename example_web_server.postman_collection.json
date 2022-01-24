@@ -199,6 +199,24 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "delete file",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/file/6a623528-affd-4c7b-87fb-37aa7fe1b675",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"file",
+								"6a623528-affd-4c7b-87fb-37aa7fe1b675"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

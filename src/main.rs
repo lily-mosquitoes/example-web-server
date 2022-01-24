@@ -37,5 +37,5 @@ fn not_found(req: &Request) -> String {
 #[launch]
 fn rocket() -> _ {
     dotenv().ok();
-    rocket::build().attach(connection::DbConn::fairing()).register("/", catchers![internal_server_error, forbidden, not_found]).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete, users::login, users::user_id, users::logout, users::all, users::get, users::post, users::update, users::make_admin, users::delete, files::all, files::get, files::download, files::post])
+    rocket::build().attach(connection::DbConn::fairing()).register("/", catchers![internal_server_error, forbidden, not_found]).mount("/", routes![ifus::all, ifus::get, ifus::post, ifus::update, ifus::delete, products::all, products::get, products::post, products::update, products::delete, users::login, users::user_id, users::logout, users::all, users::get, users::post, users::update, users::make_admin, users::delete, files::all, files::get, files::download, files::post, files::delete])
 }
