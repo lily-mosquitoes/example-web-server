@@ -117,6 +117,55 @@
 			]
 		},
 		{
+			"name": "files",
+			"item": [
+				{
+					"name": "get files",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/files",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/lilian/Documents/flutter-succinctly.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/file",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"file"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "products",
 			"item": [
 				{
@@ -237,7 +286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"user\"\n}",
+							"raw": "{\n    \"username\": \"development\",\n    \"password\": \"development\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -313,13 +362,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/user/2",
+							"raw": "{{base_url}}/user/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"user",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -379,18 +428,37 @@
 					"response": []
 				},
 				{
-					"name": "delete user",
+					"name": "make admin",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/user/3",
+							"raw": "{{base_url}}/user/6/make_admin",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"user",
-								"3"
+								"6",
+								"make_admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"1"
 							]
 						}
 					},
