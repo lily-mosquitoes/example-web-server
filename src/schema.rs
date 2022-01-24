@@ -1,4 +1,14 @@
 table! {
+    files (id) {
+        id -> Uuid,
+        name -> Varchar,
+        content_type -> Varchar,
+        size -> Int8,
+        data -> Bytea,
+    }
+}
+
+table! {
     ifus (id) {
         id -> Int4,
         code -> Varchar,
@@ -28,6 +38,7 @@ table! {
 joinable!(products -> ifus (ifu_id));
 
 allow_tables_to_appear_in_same_query!(
+    files,
     ifus,
     products,
     users,
