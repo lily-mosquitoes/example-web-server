@@ -91,7 +91,7 @@ pub async fn delete(id: i32, jar: &CookieJar<'_>, connection: DbConn) -> Result<
         },
         None => return Err(Status::Forbidden),
     };
-    
+
     connection.run( move |c| match ifus::get(id, c) {
         Ok(_) => ifus::delete(id, c)
             .map(|_| status::NoContent)
