@@ -137,6 +137,43 @@
 					"response": []
 				},
 				{
+					"name": "get file",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/file/599e2799-ad4a-41ef-b1a4-b0ea264e985f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"file",
+								"599e2799-ad4a-41ef-b1a4-b0ea264e985f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download file",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/file/download/599e2799-ad4a-41ef-b1a4-b0ea264e985f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"file",
+								"download",
+								"599e2799-ad4a-41ef-b1a4-b0ea264e985f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "post file",
 					"request": {
 						"method": "POST",
