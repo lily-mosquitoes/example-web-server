@@ -1,0 +1,5 @@
+ALTER TABLE ifus
+    ALTER COLUMN file_id DROP NOT NULL;
+
+ALTER TABLE ifus
+    DROP CONSTRAINT unique_file_id;

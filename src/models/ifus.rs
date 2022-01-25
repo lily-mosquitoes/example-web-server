@@ -8,7 +8,7 @@ use crate::models::Record;
 pub struct Ifu {
     pub id: i32,
     pub code: String,
-    pub file_id: Option<Uuid>,
+    pub file_id: Uuid,
 }
 
 impl Record for Ifu {
@@ -20,7 +20,7 @@ impl Record for Ifu {
 #[table_name = "ifus"]
 pub struct InsertableIfu {
     pub code: String,
-    pub file_id: Option<Uuid>,
+    pub file_id: Uuid,
 }
 
 impl InsertableIfu {

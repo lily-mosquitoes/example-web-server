@@ -12,7 +12,7 @@ table! {
     ifus (id) {
         id -> Int4,
         code -> Varchar,
-        file_id -> Nullable<Uuid>,
+        file_id -> Uuid,
     }
 }
 
