@@ -1,5 +1,6 @@
 use rocket::serde::{ Serialize, Deserialize };
 use diesel::{ Queryable, Insertable };
+use uuid::Uuid;
 use crate::schema::ifus;
 use crate::models::Record;
 
@@ -7,7 +8,7 @@ use crate::models::Record;
 pub struct Ifu {
     pub id: i32,
     pub code: String,
-    pub file_url: String,
+    pub file_id: Option<Uuid>,
 }
 
 impl Record for Ifu {
@@ -19,14 +20,14 @@ impl Record for Ifu {
 #[table_name = "ifus"]
 pub struct InsertableIfu {
     pub code: String,
-    pub file_url: String,
+    pub file_id: Option<Uuid>,
 }
 
 impl InsertableIfu {
     pub fn from_ifu(ifu: Ifu) -> InsertableIfu {
         InsertableIfu {
             code: ifu.code,
-            file_url: ifu.file_url,
+            file_id: ifu.file_id,
         }
     }
 }
