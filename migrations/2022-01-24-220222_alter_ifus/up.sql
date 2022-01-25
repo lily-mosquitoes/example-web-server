@@ -1,0 +1,5 @@
+ALTER TABLE ifus
+    DROP COLUMN file_url;
+
+ALTER TABLE ifus
+    ADD COLUMN file_id UUID REFERENCES files(id) ON DELETE RESTRICT;

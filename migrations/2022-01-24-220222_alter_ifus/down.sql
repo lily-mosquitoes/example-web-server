@@ -1,0 +1,5 @@
+ALTER TABLE ifus
+    DROP COLUMN file_id;
+
+ALTER TABLE ifus
+    ADD COLUMN file_url TEXT NOT NULL;

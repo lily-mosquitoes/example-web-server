@@ -12,7 +12,7 @@ table! {
     ifus (id) {
         id -> Int4,
         code -> Varchar,
-        file_url -> Text,
+        file_id -> Nullable<Uuid>,
     }
 }
 
@@ -35,6 +35,7 @@ table! {
     }
 }
 
+joinable!(ifus -> files (file_id));
 joinable!(products -> ifus (ifu_id));
 
 allow_tables_to_appear_in_same_query!(
