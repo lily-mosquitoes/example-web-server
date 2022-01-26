@@ -7,7 +7,14 @@ pub fn all(connection: &diesel::PgConnection) -> QueryResult<Vec<Ifu>> {
 }
 
 pub fn get(id: i32, connection: &diesel::PgConnection) -> QueryResult<Ifu> {
-    ifus::table.find(id).get_result::<Ifu>(connection)
+    ifus::table.find(id)
+        .get_result::<Ifu>(connection)
+}
+
+pub fn search(code: String, connection: &diesel::PgConnection) -> QueryResult<i32> {
+    ifus::table.filter(ifus::code.eq(code))
+        .select(ifus::id)
+        .first(connection)
 }
 
 pub fn insert(ifu: Ifu, connection: &diesel::PgConnection) -> QueryResult<Ifu> {
