@@ -10,6 +10,12 @@ pub fn get(id: i32, connection: &diesel::PgConnection) -> QueryResult<Product> {
     products::table.find(id).get_result::<Product>(connection)
 }
 
+pub fn search(code: String, connection: &diesel::PgConnection) -> QueryResult<i32> {
+    products::table.filter(products::code.eq(code))
+        .select(products::id)
+        .first(connection)
+}
+
 pub fn insert(product: Product, connection: &diesel::PgConnection) -> QueryResult<Product> {
     diesel::insert_into(products::table)
         .values(&InsertableProduct::from_product(product))

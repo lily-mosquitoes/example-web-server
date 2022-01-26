@@ -12,9 +12,9 @@
         </fieldset>
         <input type="submit" value="search">
     </form>
-    {% if ifu_id %}
+    {% if id %}
     <div class="">
-        <p>{{ ifu_id }}</p>
+        <p>{{ id }}</p>
     </div>
     {% elif not_found %}
     <div class="">
