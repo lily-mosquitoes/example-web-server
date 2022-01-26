@@ -1,0 +1,7 @@
+{% extends "base" %}
+
+{% block content %}
+<div class="font-bold text-4xl text-blue-800 hover:text-red-800 transition duration-300">
+    <p>Hello world!</p>
+</div>
+{% endblock content %}

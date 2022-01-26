@@ -7,6 +7,8 @@ extern crate rocket_multipart_form_data;
 
 use dotenv::dotenv;
 use rocket::Request;
+use rocket_dyn_templates::Template;
+use rocket::fs::{FileServer, relative};
 
 pub mod connection;
 pub mod routes;
@@ -14,10 +16,7 @@ pub mod repository;
 pub mod models;
 pub mod schema;
 
-use crate::routes::ifus;
-use crate::routes::products;
-use crate::routes::users;
-use crate::routes::files;
+use crate::routes::{ifus, products, users, files, website};
 
 #[catch(500)]
 fn internal_server_error() -> String {
@@ -39,9 +38,13 @@ fn rocket() -> _ {
     dotenv().ok();
     rocket::build()
         .attach(connection::DbConn::fairing())
+        .attach(Template::fairing())
         .register("/", catchers![
-            internal_server_error, forbidden, not_found,
+            internal_server_error,
+            forbidden,
+            not_found,
         ])
+        .mount("/", FileServer::from(relative!("static")))
         .mount("/", routes![
             ifus::all,
             ifus::get,
@@ -67,5 +70,6 @@ fn rocket() -> _ {
             files::download,
             files::post,
             files::delete,
+            website::index,
         ])
 }
