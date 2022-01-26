@@ -15,6 +15,14 @@
 
      `diesel migration run`
 
+- install node modules
+
+     `npm install`
+
+- run tailwind
+
+     `npx tailwindcss -i ./static_src/css/styles.css -o ./static/css/styles.css --watch`
+
 - run the rocket application:
 
      `cargo run`
