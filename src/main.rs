@@ -72,5 +72,6 @@ fn rocket() -> _ {
             files::delete,
             healthcheck::ok,
             website::index,
+            website::search,
         ])
 }
