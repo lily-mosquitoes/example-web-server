@@ -12,8 +12,10 @@
         </fieldset>
         <input type="submit" value="search">
     </form>
+    {% if search %}
     <div class="">
         <p>{{ search }}</p>
     </div>
+    {% endif %}
 </div>
 {% endblock content %}
