@@ -16,7 +16,7 @@ pub mod repository;
 pub mod models;
 pub mod schema;
 
-use crate::routes::{ifus, products, users, files, website};
+use crate::routes::{ifus, products, users, files, healthcheck, website};
 
 #[catch(500)]
 fn internal_server_error() -> String {
@@ -70,6 +70,7 @@ fn rocket() -> _ {
             files::download,
             files::post,
             files::delete,
+            healthcheck::ok,
             website::index,
         ])
 }

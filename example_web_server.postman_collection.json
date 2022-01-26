@@ -31,13 +31,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/ifu/8",
+							"raw": "{{base_url}}/ifu/7",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"ifu",
-								"8"
+								"7"
 							]
 						}
 					},
@@ -76,7 +76,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 8,\n    \"code\": \"303.608.999\",\n    \"file_url\": \"https://example.com/file_new.pdf\"\n}",
+							"raw": "{\n    \"id\": 7,\n    \"code\": \"303.608.600\",\n    \"file_id\": \"b83b243c-2f86-4831-b014-9f4c618f7fc6\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,13 +84,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/ifu/8",
+							"raw": "{{base_url}}/ifu/7",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"ifu",
-								"8"
+								"7"
 							]
 						}
 					},
@@ -514,6 +514,28 @@
 							"path": [
 								"user",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "healthcheck",
+			"item": [
+				{
+					"name": "ok",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/healthcheck",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"healthcheck"
 							]
 						}
 					},

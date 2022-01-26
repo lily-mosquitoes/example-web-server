@@ -2,6 +2,7 @@ pub mod ifus;
 pub mod products;
 pub mod users;
 pub mod files;
+pub mod healthcheck;
 pub mod website;
 
 pub mod utils {
