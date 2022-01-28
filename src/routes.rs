@@ -11,7 +11,21 @@ pub mod utils {
     use rocket::response::status;
     use rocket::serde::json::Json;
     use std::env;
+    use rand::{thread_rng, Rng};
+    use rand::distributions::Alphanumeric;
     use crate::models;
+
+    pub fn new_temp_path() -> std::path::PathBuf {
+        let mut temp_path = "/tmp/rs-".to_string();
+        let temp_file_name: String = thread_rng()
+            .sample_iter(&Alphanumeric)
+            .take(30)
+            .map(char::from)
+            .collect();
+        temp_path.push_str(temp_file_name.as_str());
+
+        std::path::PathBuf::from(temp_path.as_str())
+    }
 
     pub fn error_status(error: Error) -> Status {
         match error {

@@ -1,6 +1,4 @@
 use rocket::{Data, response::status, http::{Status, ContentType, CookieJar}};
-use rand::{thread_rng, Rng};
-use rand::distributions::Alphanumeric;
 use rocket::serde::json::Json;
 use std::str::FromStr;
 use uuid::Uuid;
@@ -8,7 +6,7 @@ use rocket_multipart_form_data::{mime, MultipartFormDataOptions, MultipartFormDa
 use crate::connection::DbConn;
 use crate::models::files::{File, InsertableFile};
 use crate::repository::{files, users};
-use crate::routes::utils::{ error_status, record_created };
+use crate::routes::utils::{ new_temp_path, error_status, record_created };
 
 #[get("/files")]
 pub async fn all(connection: DbConn) -> Result<Json<Vec<File>>, Status> {
@@ -30,14 +28,7 @@ pub async fn get(id: Uuid, connection: DbConn) -> Result<Json<File>, Status> {
 pub async fn download(id: Uuid, connection: DbConn) -> Result<std::fs::File, Status> {
     connection.run( move |c| match files::get(id, c) {
         Ok(file) => {
-            let mut temp_path = "/tmp/rs-resp-".to_string();
-            let temp_file_name: String = thread_rng()
-                .sample_iter(&Alphanumeric)
-                .take(30)
-                .map(char::from)
-                .collect();
-            temp_path.push_str(temp_file_name.as_str());
-            let write_path = std::path::Path::new(temp_path.as_str());
+            let write_path = new_temp_path();
             match std::fs::write(&write_path, &file.data) {
                 Ok(_) => match std::fs::File::open(&write_path) {
                     Ok(file) => {

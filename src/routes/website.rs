@@ -4,9 +4,8 @@ use rocket::form::Form;
 use rocket::http::Status;
 use crate::connection::DbConn;
 use crate::repository::{ifus, products};
-use crate::routes::utils::error_status;
 
-#[derive(Debug, FromForm)]
+#[derive(FromForm)]
 pub struct Search {
     code: String
 }
