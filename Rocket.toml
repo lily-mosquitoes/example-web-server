@@ -1,0 +1,2 @@
+[global.limits]
+form-data = 20971520

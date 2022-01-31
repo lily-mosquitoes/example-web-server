@@ -3,12 +3,12 @@
 #[macro_use] extern crate rocket;
 #[macro_use] extern crate diesel;
 extern crate dotenv;
-extern crate rocket_multipart_form_data;
 
 use dotenv::dotenv;
 use rocket::Request;
 use rocket_dyn_templates::Template;
 use rocket::fs::{FileServer, relative};
+use rocket::data::ToByteUnit;
 
 pub mod connection;
 pub mod routes;
@@ -23,14 +23,25 @@ fn internal_server_error() -> String {
     "Internal Server Error / Operation Not Allowed".to_string()
 }
 
-#[catch(403)]
-fn forbidden() -> String {
-    "Resource not available to requester".to_string()
+#[catch(413)]
+fn payload_too_large(req: &Request) -> String {
+    println!("type: {:?}", req.format().unwrap().sub().to_string());
+    format!(
+        "Payload too large, limits: '{}'",
+        req.limits().get(req.format()
+            .unwrap_or(&rocket::http::MediaType::Any).sub().to_string()
+        ).unwrap_or(0_usize.bytes())
+    )
 }
 
 #[catch(404)]
 fn not_found(req: &Request) -> String {
     format!("Resource not found: '{}'", req.uri())
+}
+
+#[catch(403)]
+fn forbidden() -> String {
+    "Resource not available to requester".to_string()
 }
 
 #[launch]
@@ -41,8 +52,9 @@ fn rocket() -> _ {
         .attach(Template::fairing())
         .register("/", catchers![
             internal_server_error,
-            forbidden,
+            payload_too_large,
             not_found,
+            forbidden,
         ])
         .mount("/", FileServer::from(relative!("static")))
         .mount("/", routes![

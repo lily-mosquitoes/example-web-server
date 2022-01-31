@@ -526,7 +526,6 @@ dependencies = [
  "rand",
  "rand_core",
  "rocket",
- "rocket-multipart-form-data",
  "rocket_dyn_templates",
  "rocket_sync_db_pools",
  "serde",
@@ -1641,18 +1640,6 @@ dependencies = [
  "uuid",
  "version_check",
  "yansi",
-]
-
-[[package]]
-name = "rocket-multipart-form-data"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2bec4978d352a6bd60b23b9e518096082f194abfbb03d0fdc189b5440dbb2798"
-dependencies = [
- "mime",
- "multer",
- "rocket",
- "tokio-util",
 ]
 
 [[package]]
